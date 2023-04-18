@@ -5,7 +5,7 @@
 
 const ssID = '1GOM9ZPLyASRGgsSXxphG6VK_1egcjW5sk8cSx5MCFjY'
 const sheetName = 'cities'
-const ss = SpreadsheetApp.openById(spreadsheetID)
+const ss = SpreadsheetApp.openById(ssID)
 const sheet = ss.getSheetByName(sheetName)
 
 
