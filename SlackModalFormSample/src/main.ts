@@ -21,7 +21,7 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
 }
 
 // モーダルを開く処理
-function openSubmissionModal(trigger_id: string) {
+const openSubmissionModal = (trigger_id: string) => {
   const blocks = createModalBlocks();
   // モーダルを開くためのリクエストを送信
   const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
@@ -88,7 +88,7 @@ interface Payload {
 }
 
 // モーダルの入力内容をチャンネルに投稿する処理
-function handleSubmit(payload: Payload) {
+const handleSubmit = (payload: Payload) => {
   const payloadValues = payload.view.state.values;
   const title = payloadValues.title_block.title_textbox.value;
   const url = payloadValues.url_block.url_textbox.value;
@@ -105,7 +105,7 @@ function handleSubmit(payload: Payload) {
 }
 
 // モーダルのブロックを作成する処理
-function createModalBlocks() {
+const createModalBlocks = () => {
   return [
     {
       type: 'input',
@@ -166,7 +166,7 @@ function createModalBlocks() {
 }
 
 // チャンネルに投稿する処理
-function sendOutput(title: string, url: string, comment: string, mention: string) {
+const sendOutput = (title: string, url: string, comment: string, mention: string) => {
   const blocks = [
     {
       "type": "header",
