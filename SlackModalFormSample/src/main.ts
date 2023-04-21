@@ -1,20 +1,22 @@
 /// <reference types="google-apps-script" />
 
-
 const SLACK_API_TOKEN = PropertiesService.getScriptProperties().getProperty('SLACK_API_TOKEN');
 const CHANNEL_ID = PropertiesService.getScriptProperties().getProperty('CHANNEL_ID');
 
 function doPost(e: GoogleAppsScript.Events.DoPost) {
+  // 届いたリクエストがショートカットからのものか、モーダルからのものかを判定
   if (e.parameter.payload) {
     const payload = JSON.parse(e.parameter.payload);
-
+    // ショートカットからのリクエストの場合
+    // モーダルを開く
     if (payload.type === 'shortcut' && payload.callback_id === 'output_button_callback') {
       openSubmissionModal(payload.trigger_id);
+      // モーダルからのリクエストの場合
     } else if (payload.type === 'view_submission') {
+      // モーダルの入力内容をチャンネルに投稿
       handleSubmit(payload);
     }
   }
-
   return ContentService.createTextOutput();
 }
 
