@@ -38,6 +38,9 @@ jobs:
             continue
           fi
           npm init -y
+          if [ ! -e tsconfig.json ]; then
+            cp ../tsconfig.json.sample tsconfig.json
+          fi
           clasp push
           cd -
         done
