@@ -1,7 +1,9 @@
 /// <reference types="google-apps-script" />
 
-const SLACK_API_TOKEN = PropertiesService.getScriptProperties().getProperty('SLACK_API_TOKEN');
-const CHANNEL_ID = PropertiesService.getScriptProperties().getProperty('CHANNEL_ID');
+const SLACK_API_TOKEN =
+  PropertiesService.getScriptProperties().getProperty('SLACK_API_TOKEN');
+const CHANNEL_ID =
+  PropertiesService.getScriptProperties().getProperty('CHANNEL_ID');
 
 function doPost(e: GoogleAppsScript.Events.DoPost) {
   // 届いたリクエストがショートカットからのものか、モーダルからのものかを判定
@@ -9,7 +11,10 @@ function doPost(e: GoogleAppsScript.Events.DoPost) {
     const payload = JSON.parse(e.parameter.payload);
     // ショートカットからのリクエストの場合
     // モーダルを開く
-    if (payload.type === 'shortcut' && payload.callback_id === 'output_button_callback') {
+    if (
+      payload.type === 'shortcut' &&
+      payload.callback_id === 'output_button_callback'
+    ) {
       openSubmissionModal(payload.trigger_id);
       // モーダルからのリクエストの場合
     } else if (payload.type === 'view_submission') {
@@ -28,7 +33,7 @@ const openSubmissionModal = (trigger_id: string) => {
     method: 'post' as GoogleAppsScript.URL_Fetch.HttpMethod,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${SLACK_API_TOKEN}`,
+      Authorization: `Bearer ${SLACK_API_TOKEN}`,
     },
     payload: JSON.stringify({
       trigger_id: trigger_id,
@@ -54,10 +59,10 @@ const openSubmissionModal = (trigger_id: string) => {
   try {
     UrlFetchApp.fetch('https://slack.com/api/views.open', options);
   } catch (error) {
-    console.error("Error: ", error);
-    return ContentService.createTextOutput("Error: " + error);
+    console.error('Error: ', error);
+    return ContentService.createTextOutput('Error: ' + error);
   }
-}
+};
 
 // モーダルの入力内容を受け取るためのPayloadの型定義
 interface Payload {
@@ -98,11 +103,13 @@ const handleSubmit = (payload: Payload) => {
   sendOutput(title, url, comment, mention);
 
   const response = {
-    "response_action": "clear"
+    response_action: 'clear',
   };
 
-  return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
-}
+  return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(
+    ContentService.MimeType.JSON
+  );
+};
 
 // モーダルのブロックを作成する処理
 const createModalBlocks = () => {
@@ -163,55 +170,60 @@ const createModalBlocks = () => {
       },
     },
   ];
-}
+};
 
 // チャンネルに投稿する処理
-const sendOutput = (title: string, url: string, comment: string, mention: string) => {
+const sendOutput = (
+  title: string,
+  url: string,
+  comment: string,
+  mention: string
+) => {
   const blocks = [
     {
-      "type": "header",
-      "text": {
-        "type": "plain_text",
-        "text": "新しいアウトプットが投稿されたよ :tada:",
-        "emoji": true
-      }
+      type: 'header',
+      text: {
+        type: 'plain_text',
+        text: '新しいアウトプットが投稿されたよ :tada:',
+        emoji: true,
+      },
     },
     {
-      "type": "divider"
+      type: 'divider',
     },
     {
-      "type": "section",
-      "fields": [
+      type: 'section',
+      fields: [
         {
-          "type": "mrkdwn",
-          "text": `*タイトル:*\n<${url}|${title}>`
+          type: 'mrkdwn',
+          text: `*タイトル:*\n<${url}|${title}>`,
         },
         {
-          "type": "mrkdwn",
-          "text": `*投稿者:*\n${mention}`
-        }
-      ]
+          type: 'mrkdwn',
+          text: `*投稿者:*\n${mention}`,
+        },
+      ],
     },
     {
-      type: "section",
+      type: 'section',
       text: {
-        type: "mrkdwn",
-        text: `*一言コメント*\n\`\`\`${comment}\`\`\``
-      }
-    }
+        type: 'mrkdwn',
+        text: `*一言コメント*\n\`\`\`${comment}\`\`\``,
+      },
+    },
   ];
 
   const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
-  method: 'post' as GoogleAppsScript.URL_Fetch.HttpMethod,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${SLACK_API_TOKEN}`,
-  },
-  payload: JSON.stringify({
-    channel: CHANNEL_ID,
-    blocks: blocks,
-  }),
-};
+    method: 'post' as GoogleAppsScript.URL_Fetch.HttpMethod,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${SLACK_API_TOKEN}`,
+    },
+    payload: JSON.stringify({
+      channel: CHANNEL_ID,
+      blocks: blocks,
+    }),
+  };
 
   UrlFetchApp.fetch('https://slack.com/api/chat.postMessage', options);
-}
+};
