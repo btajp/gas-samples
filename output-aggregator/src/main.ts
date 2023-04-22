@@ -262,6 +262,16 @@ const sendOutput = (
         text: `*一言コメント*\n\`\`\`${comment}\`\`\``,
       },
     },
+    {
+      type: 'divider',
+    },
+        {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `過去の投稿は<https://corp-engr.notion.site/38cdfb76ecd04f7d9f3ff402f64632b5?v=f91af1fe43054b8fb43d1444fc24150d|こちら>`,
+      },
+    },
   ];
 
   const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
