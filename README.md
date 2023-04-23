@@ -25,18 +25,13 @@ H --> I[Google Apps Scriptプロジェクトがデプロイされる]
 
 # 使い方
 
-## 0. テンプレートからリポジトリを作成する
-
-このリポジトリはテンプレートリポジトリになっています。
-Mit ライセンスで公開していますが、通常チームでこのリポジトリを用いて開発する場合、プライベートリポジトリでやるはずなので、Fork ではなくこのレポジトリをテンプレートとしてリポジトリを作成してください。
-
 ## 1. リポジトリをクローンする
 
 リポジトリを作成後ローカルにクローンして、ディレクトリに移動します。
 
 ```bash
 git clone
-cd docker-clasp-starter
+cd gas-samples
 ```
 
 ## Visual Studio Code でコンテナを開く
@@ -71,7 +66,9 @@ npm run create [project_name]
 project_name
 ├── src
 │   └── appsscript.json
-└── .clasp.json
+├── .clasp.json
+└── tsconfig.json
+
 ```
 
 そして、タイムゾーンが日本に設定されます。
